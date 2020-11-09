@@ -64,7 +64,7 @@ int main()
         glRotatef(time, 50, 50, 0);
 
         // Draw a cube
-        createBox(box,6);
+        createBox(box,20);
 
         // Display all
         window.display();
