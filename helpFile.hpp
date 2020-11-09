@@ -9,10 +9,9 @@
 #include <gl\glu.h>
 
 const float PI = 3.141592653;
-bool mass[1000][1000][1000];
-float size = 20.f;
+extern bool mass[1000][1000][1000];
 
-GLuint LoadTexture(sf::String name)
+inline GLuint LoadTexture(sf::String name)
 {
     sf::Image image;
     if (!image.loadFromFile(name))
@@ -34,7 +33,7 @@ GLuint LoadTexture(sf::String name)
 }
 
 
-void createBox(GLuint skybox[], float size)
+inline void createBox(GLuint skybox[], float size)
 {
     glBindTexture(GL_TEXTURE_2D, skybox[0]);
     glBegin(GL_QUADS);
@@ -92,7 +91,7 @@ void createBox(GLuint skybox[], float size)
 }
 
 
-bool check(int x, int y, int z)
+inline bool check(int x, int y, int z)
 {
     if ((x < 0) || (x >= 1000) ||
         (y < 0) || (y >= 1000) ||
