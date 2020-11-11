@@ -9,7 +9,7 @@
 #include <gl\glu.h>
 
 const float PI = 3.141592653;
-extern bool mass[1000][1000][1000];
+bool mass[1000][1000][1000];
 
 inline GLuint LoadTexture(sf::String name)
 {
