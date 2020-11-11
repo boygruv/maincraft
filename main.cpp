@@ -19,9 +19,7 @@ float speed = 1;
 GLuint LoadTexture(sf::String name)
 {
     sf::Image image;
-    if (!image.loadFromFile(name))
-        return EXIT_FAILURE;
-
+    image.loadFromFile(name);
     image.flipVertically();
 
     GLuint texture = 0;
@@ -109,6 +107,16 @@ bool check(int x, int y, int z)
 int main()
 {
     srand(time(0));
+
+    for (int x=0;x<20;x++)
+        for(int y=0;y<20;y++)
+            for (int z = 0; z < 20; z++)
+            {
+                if ((y == 0) || rand() % 100 == 1)
+                    mass[x][y][z] = 1;
+            }
+
+
     RenderWindow window(VideoMode(1024, 768), "Minecraft C++");
     Texture t;
     t.loadFromFile("resources/background.jpg");
@@ -123,8 +131,8 @@ int main()
     gluPerspective(90.f, 1.f, 1.f, 500.f);
     glEnable(GL_TEXTURE_2D);
 
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW);
+    //glEnable(GL_CULL_FACE);
+    //glFrontFace(GL_CW);
     //glCullFace(GL_FRONT);
 
     // Загружаем текстуры кубика
@@ -140,6 +148,7 @@ int main()
 
     while (window.isOpen())
     {
+        srand(time(0));
         Event event;
         while (window.pollEvent(event));
         {
@@ -205,11 +214,20 @@ int main()
         // Apply some transformations (смещаем кубик на 100 единиц)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(0, 0, -100);
+        glTranslatef(0, -300, 0);
         gluLookAt(x, y, z, x - sin(angleX / 180 * PI), y  + (tan(angleY / 180 * PI)), z - cos(angleX / 180 * PI), 0, 1, 0);
 
         // Draw a cube
-        createBox(box, size);
+        for (int x = 0; x < 20; x++)
+            for (int y = 0; y < 20; y++)
+                for (int z = 0; z < 20; z++)
+                {
+                    if (!mass[x][y][z]) continue;
+
+                    glTranslatef(x*size, y*size, z*size);
+                    createBox(box, size/2);
+                    glTranslatef(-x*size, -y*size, -z*size);
+                }
 
         // Display all
         window.display();
